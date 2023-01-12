@@ -1,10 +1,15 @@
 import './App.css'
-import { useState } from 'react';
+import { useState,useEffect,useRef } from 'react';
 
 function App() {
   const [toDos, setToDos] = useState([])
   const [toDo, setToDo] = useState('')
   const [filter, setFilter] = useState("");
+  const inputRef = useRef(null)
+
+useEffect(()=>{
+  inputRef.current.focus()
+},[])
 
   return (
     <div className="app">
@@ -13,7 +18,7 @@ function App() {
       </div>
      
       <div className="input">
-        <input value={toDo} onChange={(e) => setToDo(e.target.value)} type="text" placeholder="🖊️ Add item..." />
+        <input value={toDo}  onChange={(e) => setToDo(e.target.value)} type="text" placeholder="🖊️ Add item..." ref={inputRef}/>
         <i onClick={() => setToDos([...toDos, { id: Date.now(), text: toDo, status: false }])} className="fas fa-plus"></i>
       </div>
       <div className="d-flex justify-content-between" >
@@ -37,8 +42,7 @@ function App() {
                     <div className="left">
                       <input
                         onChange={(e) => {
-                          console.log(e.target.checked);
-                          console.log(obj);
+                         
                           setToDos(toDos.filter(obj2 => {
 
                             if (obj2.id === obj.id) {
@@ -48,7 +52,7 @@ function App() {
                             return obj2;
                           }))
                         }}
-                        value={obj.status} type="checkbox" name="" id="" checked={obj.status} />
+                        value={obj.status} type="checkbox"  name="" id="" checked={obj.status} />
                       <p>{obj.status === true ? <s>{obj.text}</s> : obj.text}</p>
 
                     </div>
